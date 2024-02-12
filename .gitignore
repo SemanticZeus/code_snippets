@@ -17,3 +17,4 @@ Arduino/libraries
 *.swo
 *.bak
 .DS_Store
+mycelium/email.conf
