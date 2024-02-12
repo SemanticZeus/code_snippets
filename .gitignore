@@ -1,0 +1,19 @@
+Arduino/libraries
+**/.DS_Store
+.env
+.cache/
+
+# Ignore compiled binaries
+*.exe
+*.class
+*.o
+*.so
+*.dll
+
+# Ignore log and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+.DS_Store
