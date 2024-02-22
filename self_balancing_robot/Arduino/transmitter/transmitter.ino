@@ -29,6 +29,6 @@ void setup() {
 }
 
 void loop() {  
-  const char text[] = "Heather Mason";
+  const char text[] = "Goodbye Cruel World!";
   radio.write(text, sizeof(text));
 }
