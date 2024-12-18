@@ -1,0 +1,20 @@
+*just a circuit
+
+V1 in 0 5
+R1 in 2 10k
+C1 2 0 1u ic=0
+R2 2 out 1k
+C2 out 0 100u ic=0
+
+.tran 10u 3 uic
+
+.control
+
+run
+plot v(in) v(2) v(out)
+
+
+.endc
+
+
+.end

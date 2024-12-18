@@ -1,0 +1,34 @@
+Coliptts Oscillator
+
+.MODEL BC108 NPN IS =1.8E-14 ISE=5.0E-14 NF =.9955 NE =1.46 BF =400
++            BR =35.5 IKF=.14 IKR=.03 ISC=1.72E-13 NC =1.27 NR =1.005
++            RB =.56 RE =.6 RC =.25 VAF=80 VAR=12.5
++            CJE=13E-12 CJC=4E-12 VJC=.54 MJC=.33
++            TF =.64E-9 TR =50.72E-9
+.model npn npn
+
+V1 vcc 0 10
+R1 vcc 1 100
+L1 1 tr_c 10m
+Q1 tr_c tr_b tr_e npn
+RE tr_e 0 510
+CE tr_e 0 10u
+RB1 vcc tr_b 10k
+RB2 tr_b 0 5.1k
+CB 2 tr_b 10n
+L2 2 tr_c 1m
+C1 2 0 150n ic=2
+C2 tr_c 0 20n ic=4
+
+
+.tran 100n 200m 199.8m uic
+
+.control
+run
+plot v(tr_c)
+.fourier 3500 v(tr_c)
+meas tran f_out TRIG v(tr_c) VAL=0.5 RISE=1 TARG v(tr_c) VAL=0.5 RISE=2
+
+.endc
+
+.end

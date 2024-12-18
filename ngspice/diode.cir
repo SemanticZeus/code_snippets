@@ -1,0 +1,20 @@
+* Diode characterstic curve
+
+.MODEL Diode D (IS=2.5e-12 n=1.05 RS=7e-3 TRS1=7.5e-3 TRS2=1e-6
++ CJO=0.252e-9 M=0.565 TT=1e-9 XTI=9.5)
+
+
+
+.param n1 = 0
+Vdc 1 0 {n1}
+R1 1 2 1k
+vcurrent 2 3 0
+D1 3 0 Diode
+
+.dc Vdc 0 100 .1
+
+.control
+run
+plot I(vcurrent) vs v(3)
+.endc
+.end

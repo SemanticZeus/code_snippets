@@ -1,0 +1,17 @@
+* ideal diode
+
+.MODEL DI_1N4001G D  ( IS=65.4p RS=4.2m BV=5000.0 IBV=5.00u
++ CJO=14.8p  M=0.333 N=1.36 TT=2.88u )
+
+
+V1 1 0 1
+R1 1 2 1k
+D1 2 3 DI_1N4001G
+VID 3 0 0
+
+.dc V1 0 100 1
+.control
+run
+plot I(VID) vs V(2)
+.endc
+.end

@@ -1,0 +1,21 @@
+* FM Sine Wave Example
+.include modelos_subckt/spice_complete/cadlab.lib
+
+V1 1 0  SFFM(0 5 20k 5 1k)
+*B1 1 0 V = sin(2 * pi * 1e3 * time + 0.1 * sin(2 * pi * 1e1 * time))
+R1 1 2 68
+C1 2 0 .1u
+L1 2 0 300u
+D1 2 out D1N914
+R2 out 0 20k
+C2 out 0 .01u
+
+
+.tran 1u 5m
+
+.control
+run
+plot v(out)
+.endc
+
+.end

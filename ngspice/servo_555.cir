@@ -1,0 +1,46 @@
+* square wave generator using 555 timer
+.include CMOS-555.lib
+
+.MODEL BC546 NPN (IS=50.7F NF=1 BF=318 VAF=145 IKF=.3
++ ISE=15.9P NE=2 BR=4 NR=1 VAR=24 IKR=.45 RE=1.54 RB=6.17
++ RC=.617 XTB=1.5 CJE=20.8P CJC=8.33P TF=611P TR=138N)
+
+.param SWITCH = 0
+
+.if (SWITCH==0)
+  RSwitch1 switch1 tr 0
+  RSwitch2 switch2 tr 1Meg
+.elseif (SWITCH==1)
+  RSwitch1 switch1 tr 1Meg
+  RSwitch2 switch2 tr 0
+.endif
+
+V1 vcc 0 6
+X1 0 tr out res ctl thr dis vcc CMOS555
+
+R1 vcc dis 33k
+R_forward dis switch1 68k
+R_reverse dis switch2 10k
+Rshort tr thr 0
+Rshort2 vcc res 0
+C1 ctl 0 10n
+C2 tr 0 100n
+
+R3 out base 1k
+R4 vcc collector 4.7k
+
+Q1 collector base 0 BC546
+
+.tran 2u 50m uic
+
+.control
+alterparam SWITCH=0
+run
+plot v(collector) v(tr)
+alterparam SWITCH=1
+reset
+run
+plot v(collector) v(tr)
+.endc
+
+.end

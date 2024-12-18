@@ -1,0 +1,41 @@
+*FM foster seeley Discriminator Circuit
+
+.include modelos_subckt/spice_complete/cadlab.lib
+
+.subckt TR3 p1 p2 s1 sm s2 N1=100 N2=100 N3=100
+
+Es1 s1 aux1 p1 p2 {N2/N1}
+Es2 sm aux2 p1 p2 {N3/N1}
+V_aux1 aux1 sm 0
+V_aux2 aux2 s2 0
+Fp1 p1 p2 V_aux1 {N2/N1}
+Fp2 p1 p2 V_aux2 {N3/N1}
+.ends
+
+V1 in 0 SFFM(0 5 5k 25 1MEG)
+*V1 in 0 sin(0 4 1MEG)
+C1 in 1 10n
+C2 1 m 1n
+X1 1 0 3 m 2 TR3 N1=4 N2=9 N3=9
+C9 2 3 100pf
+L4 m 0 22u ic=0
+D1 2 a1 D1N4001
+D2 3 a2 D1N4001
+R1 a1 m2 100k
+R2 a2 m2 100k
+C3 a1 m2 100p
+C4 a2 m2 100p
+R3 a1 o 2.2k
+C5 o 0 390p
+
+.tran 10u 10m 5m  uic
+.options RELTOL=1e-4 ABSTOL=1e-12 VNTOL=1e-6
+.nodeset V(node)=0
+
+.control
+run
+plot  v(in)
+plot v(o) 
+.endc
+
+.end

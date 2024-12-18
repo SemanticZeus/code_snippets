@@ -1,0 +1,28 @@
+* alterparam example
+
+.param freq = 1
+
+V1 1 0 Sin(0 10 {freq})
+R1 1 0 10k
+
+
+
+
+.tran 1m 1
+
+
+.control
+
+let start = 1
+let end = 100
+var f = $&start
+while start < end
+echo $&start
+alterparam freq = 10*$f
+reset
+let start = start + 10
+
+run
+plot v(1)
+
+endwhile

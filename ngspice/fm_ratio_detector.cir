@@ -1,0 +1,42 @@
+*FM foster seeley Discriminator Circuit
+
+.include modelos_subckt/spice_complete/cadlab.lib
+.include modelos_subckt/spice_complete/diode_ST.lib
+.subckt TR3 p1 p2 s1 sm s2 N1=100 N2=100 N3=100
+
+Es1 s1 aux1 p1 p2 {N2/N1}
+Es2 sm aux2 p1 p2 {N3/N1}
+V_aux1 aux1 sm 0
+V_aux2 aux2 s2 0
+Fp1 p1 p2 V_aux1 {N2/N1}
+Fp2 p1 p2 V_aux2 {N3/N1}
+.ends
+
+*V1 in 0 ac 1 SFFM(0 5 1k 5 157k)
+V1 in 0 ac 1 sin(0 5 157k)
+Rs in 1 100
+C1 1 0 40p
+C2 1 m 40p
+LRFC 0 m 22m
+X1 1 0 2 m 3 TR3 N1=44 N2=100 N3=100
+C4 2 3 500pf
+D1 2 a D1N5711
+D2 b 3 D1N5711
+R1 a 0 1k
+R2 b 0 1k
+C5 a 0 1n
+C6 b 0 1n
+R3 a output 5k
+R4 b output 5k
+C7 a b 10u
+
+.tran .01u 10m 5m
+*.ac dec 10 10 100meg
+.control
+run
+*plot mag(v(1)/v(in)) mag(v(output)/v(in))
+plot v(1) v(in) v(output)
+plot v(output)
+.endc
+
+.end

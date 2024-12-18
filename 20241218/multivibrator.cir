@@ -1,0 +1,28 @@
+*multivibrator using 2 NPN transistors
+.MODEL BC546 NPN (IS=50.7F NF=1 BF=318 VAF=145 IKF=.3
++ ISE=15.9P NE=2 BR=4 NR=1 VAR=24 IKR=.45 RE=1.54 RB=6.17
++ RC=.617 XTB=1.5 CJE=20.8P CJC=8.33P TF=611P TR=138N)
+
+Vdc vcc 0 10
+Q1 c1 b1 e1 BC546
+Q2 c2 b2 e2 BC546
+C1 c1 b2 100u ic=0
+C2 c2 b1 100u ic=9
+R1 vcc c1 1k
+R2 vcc c2 1k
+Rshort1 e1 0 0
+Rshort2 e2 0 0
+R3 b1 vcc 100k
+R4 b2 vcc 100k
+
+.tran 1m 60 uic
+
+.control
+run
+set xbrushwidth=5
+plot v(c1) v(c2)+20 v(b1)+40 v(b2)+60 v(c1)-v(b2)+80
+.endc
+
+
+
+.end

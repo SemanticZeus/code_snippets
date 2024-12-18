@@ -1,0 +1,29 @@
+* bc547_test
+
+.MODEL BC547BP NPN IS =1.8E-14 ISE=5.0E-14 NF =.9955 NE =1.46 BF =400 BR =35.5
++IKF=.14 IKR=.03 ISC=1.72E-13 NC =1.27 NR =1.005 RB =.56 RE =.6 RC =.25 VAF=80
++VAR=12.5 CJE=13E-12 TF =.64E-9 CJC=4E-12 TR =50.72E-9 VJC=.54 MJC=.33
+
+Vdc vcc 0 10
+
+RC vcc tr1c 1k
+RE tr1e 0 1k
+CE tr1e 0 100u
+RB1 vcc tr1b 64k
+RB2 tr1b 0 33k
+CB 1 tr1b 100u
+VS vs 0 sin(0 10m 200)
+RS vs 1 1
+CC tr1c out 100u
+RL out 0 10k
+
+Q1 tr1c tr1b tr1e BC547BP
+
+.tran .1m 10 uic
+
+.control
+run
+plot v(tr1c) v(tr1b) v(tr1e)  v(out)
+
+.endc
+.end

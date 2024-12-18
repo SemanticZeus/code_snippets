@@ -1,0 +1,13 @@
+how sffm works
+
+V1 1 0 SFFM(0 10 1k 5 1MEG)
+R1 1 0 1k
+
+.tran .01u 10m
+
+.control
+run
+plot v(1)
+wrdata sffm.txt v(1)
+.endc
+.end

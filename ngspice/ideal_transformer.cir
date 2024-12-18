@@ -1,0 +1,34 @@
+ideal transformer using controlled sources
+
+.subckt TR2 p1 p2 s1 s2 N1=100 N2=100
+
+Es s1 n1 p1 p2 {N2/N1}
+VIS n1 s2 0
+Fp p1 p2 VIS {N2/N1}
+.ends
+
+.subckt TR3 p1 p2 s1 sm s2 N1=100 N2=100 N3=100
+
+Es1 s1 aux1 p1 p2 {N2/N1}
+Es2 sm aux2 p1 p2 {N3/N1}
+V_aux1 aux1 sm 0
+V_aux2 aux2 s2 0
+Fp1 p1 p2 V_aux1 {N2/N1}
+Fp2 p1 p2 V_aux2 {N3/N1}
+.ends
+
+
+
+V1 1 0 sin(0 1 1k)
+Rs 1 2 100
+X1 2 0 3 mid 4 TR3 N1=100 N2=2000 N3=4000
+RL1 3 mid 100k
+RL2 4 mid 100k
+
+.tran 1u 5m
+
+.control
+run
+plot v(1) v(2) v(3) v(4) v(mid) v(3)-v(4) v(3)-v(mid) v(4)-v(mid)
+.endc
+.end

@@ -1,0 +1,30 @@
+current source using ua741
+
+Vdc1 vcc 0 10
+Vdc2 0 vee 10
+
+* connections:   non-inverting input
+*                | inverting input
+*                | | positive power supply
+*                | | | negative power supply
+*                | | | | output
+*                | | | | |
+
+.include modelos_subckt/ti/ua741.mod
+X1 vp vn vcc vee output UA741 
+
+vin vp 0 1
+Rvp vp 0 1Meg
+*RL output vn 5k
+CL output vn 100u ic=0
+VIRL vn 1 0
+R1 1 0 1k
+
+.tran 1u 1 uic
+
+.control
+run
+plot I(VIRL) v(output)-v(vn)
+.endc
+
+.end

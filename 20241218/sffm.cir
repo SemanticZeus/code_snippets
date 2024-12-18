@@ -1,0 +1,15 @@
+* an example to try sffM
+
+V1 1 0 SFFM(0 10 100 5 1k)
+R1 1 0 1k
+
+
+.tran .1u 100m
+
+.control
+
+run
+plot v(1)
+
+.endc
+.end

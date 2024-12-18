@@ -1,0 +1,49 @@
+* chapter 2 problem 25 linear and nonlinear circuits
+
+.param select = 0
+.param rr1=0
+
+R1 1 22 {rr1}
+VIR1 22 2 0
+R2 1 3 -5.143
+R3 0 23 -4
+VIR3 23 2 0
+R4 0 3 7.2
+.if (select==0)
+Vdc 1 0 8
+RL 2 3 2
+.else
+Vdc 1 0 12
+RL 2 3 4
+.endif
+
+.option brief
+.op
+
+
+
+.control
+set numdgt=2
+set scise=0
+
+let start = -10
+let end = 10
+while start<end
+alterparam rr1  = start
+alterparam select = 0
+reset
+run
+print  v(2)-v(3) I(VIR1) I(VIR3)
+alterparam select = 1
+reset
+run
+
+print  v(2)-v(3) I(VIR1) I(VIR3)
+
+
+
+let start=start+1
+end
+quit
+.endc
+.end

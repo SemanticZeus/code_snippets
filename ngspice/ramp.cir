@@ -1,0 +1,44 @@
+ua741 - 555 ramp generator 
+
+.include modelos_subckt/ti/ua741.mod
+.include ./CMOS-555.LIB
+
+
+Vdc1 vcc 0 10
+Vdc2 0 vee 10
+
+* connections:   non-inverting input
+*                | inverting input
+*                | | positive power supply
+*                | | | negative power supply
+*                | | | | output
+*                | | | | |
+
+X1 vp vn vcc vee output_opamp UA741 
+
+
+V1 1 0 2
+R1 1 vp 1k
+R2 vn 0 1k
+R3 vp output_opamp 1k
+R4 output_opamp vn 1k
+VIRL vn 2 0
+RL 2 0 3k
+
+
+
+
+
+*X2 0 trigger output reset control threshold discharge vcc CMOS555
+
+
+
+
+.tran 10u 5m  uic
+
+.control
+run
+plot I(VIRL)
+.endc
+
+.end

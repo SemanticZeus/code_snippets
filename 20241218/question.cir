@@ -1,0 +1,19 @@
+problem from  linear and nonlinear circuit theory
+
+
+.model Diode D(IS=1e-3 Ron=0.0001 Roff=100G Vfwd=0)
+
+
+V1 1 0 sin(0 1 {1/(2*3.14)})
+L1 1 2 1 ic=0
+VIL1 2 3 0
+D1 0 3 Diode
+I1 3 0 1
+
+.tran .1m 25 uic
+
+.control
+run
+plot v(1) I(VIL1)
+.endc
+.end

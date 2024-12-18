@@ -1,0 +1,29 @@
+How to model a transformer in ngspice?
+
+.subckt TR3 p1 p2 s1 sm s2 N1=100 N2=100 N3=100
+
+Es1 s1 aux1 p1 p2 {N2/N1}
+Es2 sm aux2 p1 p2 {N3/N1}
+V_aux1 aux1 sm 0
+V_aux2 aux2 s2 0
+Fp1 p1 p2 V_aux1 {N2/N1}
+Fp2 p1 p2 V_aux2 {N3/N1}
+.ends
+
+
+
+Vin in 0 sin(0 10 60)
+Rs in 10 0
+
+R1 2 0 10k
+R2 3 0 10k
+
+X1 1 0 2 0 3 TR3 N1=100 N2=10000 N3=1000
+
+.tran 1m .1
+
+.control
+run
+plot v(2) v(3) v(1)
+.endc
+.end

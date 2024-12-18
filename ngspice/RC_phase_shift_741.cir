@@ -1,0 +1,36 @@
+* RC phase shift sine save oscillator using LM741
+
+.include basic_models/OpAmps/generic_opamp.lib
+
+X1 NInv Inv Vcc Vee Out genopa1
+X2 Vout inv2 Vcc Vee out2 genopa1
+R4 out2 inv2 100k
+R5 inv2 0 1k
+R6 out2 Vout2 100
+C4 Vout2 0 10u
+
+V1 Vcc 0 10
+V2 0 Vee 10
+
+R_short NInv 0 0
+C1 Out node1 2.4n ic=0
+C2 node1 node2 2.4n ic=0
+C3 node2 Vout 2.4n ic=0
+R_short2 Vout Inv 0
+
+R1 node1 0 6.8k
+R2 node2 0 6.8k
+R3 Vout 0 6.8k
+
+Rf Inv Out 196k
+
+.tran .1u 20m 18m uic
+
+.control
+run
+plot v(Vout2)
+.endc
+
+.end
+
+

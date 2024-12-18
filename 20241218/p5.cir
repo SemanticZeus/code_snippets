@@ -1,0 +1,23 @@
+*
+.model IdealDiode D(Is=1e-15 n=0.0001 BV=1000)
+
+V1 in 0 sin(0 1 .159)
+L1 in 2 1 ic=0
+VIL1 2 3 0
+D1 0 3 IdealDiode
+I1 3 0 1
+
+.tran 1m 15 uic
+
+.control
+run
+set xbrushwidth=3
+set gnuplot
+
+set gnuplot_terminal=png/quit
+gnuplot plot v(in) I(VIL1)
+
+
+exit
+.endc
+.end

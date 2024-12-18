@@ -1,0 +1,16 @@
+* RC Low Pass Filter
+
+VAC 1 0 ac 1 sin(0 1 10k)
+R1 1 2 10k
+C1 2 0 10n
+
+.ac lin 50 10 1k
+
+.control
+run
+plot v(2) v(1)
+*plot ph(v(2))
+
+.endc
+
+.end

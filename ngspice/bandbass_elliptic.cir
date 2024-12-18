@@ -1,0 +1,25 @@
+* Elliptic Bandpass filter 90Mhz<f<95Mhz
+
+Vac 1 0 1 ac
+R1 1 2 50
+C1 2 0 370.1p
+L1 2 0 8n
+C2 2 3 60p
+L2 2 3 40n
+L3 3 4 50n
+C3 3 4 74.2p
+C4 4 0 720p
+L4 4 0 4n
+C5 4 5 2.95p
+L5 5 6 1u
+RL 6 0 50
+
+
+.ac lin 1k 10 150Meg
+
+.control
+run
+plot v(6)
+.endc
+
+.end

@@ -1,0 +1,24 @@
+* Ideal Transformer Example: 10:1 Turns Ratio
+
+V1 1 0 sin(0 10 10k)
+Rs 1 2 100
+L1 2 0 10
+L2 3 4 40
+K12 L1 L2 1
+Rload 3 4 10000
+*Rshort 4 0 0
+
+
+
+.tran 10n 1m
+
+
+.control
+run
+
+plot v(3)-v(4)
+
+
+.endc
+
+.end

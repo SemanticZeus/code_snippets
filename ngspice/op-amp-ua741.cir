@@ -1,0 +1,30 @@
+ua741 example
+
+Vdc1 vcc 0 10
+Vdc2 0 vee 10
+
+* connections:   non-inverting input
+*                | inverting input
+*                | | positive power supply
+*                | | | negative power supply
+*                | | | | output
+*                | | | | |
+
+.include modelos_subckt/ti/ua741.mod
+X1 vp vn vcc vee out UA741 
+
+Vac 1 0 ac 1
+Rshort vp 0 0
+R1 1 vn 1k
+R2 vn out 1Meg
+C1 vn out .001u
+
+.ac dec 1k 1 100k
+
+.control
+run
+plot ph(v(out)) 
+plot mag(v(out))
+.endc
+
+.end

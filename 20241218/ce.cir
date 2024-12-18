@@ -1,0 +1,28 @@
+* Common Emitter
+
+.model npn1 NPN (IS=50.7F NF=1 BF=318 VAF=145 IKF=.3
++ ISE=15.9P NE=2 BR=4 NR=1 VAR=24 IKR=.45 RE=1.54 RB=6.17
++ RC=.617 XTB=1.5 CJE=20.8P CJC=8.33P TF=611P TR=138N)
+
+Vdc vcc 0 10
+Q1 c b e npn1
+Rc vcc c 1k
+C2 c out 10u
+RL out 0 10k
+Re e 0 4.7k
+R1 vcc b 5k
+R2 b 0 4.7k
+CE e 0 10u
+Vac s 0 sin(0 1m 5k)
+Rs s 2 10
+C1 2 b 10u
+
+
+.tran .1u 1m
+
+.control
+run
+plot V(out) V(s)
+.endc
+
+.end

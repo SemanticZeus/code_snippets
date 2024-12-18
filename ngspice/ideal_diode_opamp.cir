@@ -1,0 +1,29 @@
+ideal amplifier using my opamp
+
+.include opamp.mod
+.MODEL Diode D (IS=2.5e-12 n=1.05 RS=7e-3 TRS1=7.5e-3 TRS2=1e-6
++ CJO=0.252e-9 M=0.565 TT=1e-9 XTI=9.5)
+
+
+X1 vp vn output vcc vee 0 n1 n2 opamp
+
+V1 vcc 0 15
+V2 0 vee 15
+D1 output out Diode
+D2 vn output Diode
+R1 1 vn 10k
+Rf vn out 10k
+
+
+Rshort vp 0 0
+
+Vin 1 0 sin(0 100m 50)
+
+.tran 10u 100m
+
+.control
+run
+plot v(1) v(out)
+.endc
+
+.end

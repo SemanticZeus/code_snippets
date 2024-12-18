@@ -1,0 +1,22 @@
+
+
+V1 in 0 sin(0 5 10meg)
+
+L1 in 0 10u
+L2 2 m 20u
+L3 3 m 20u
+
+R1 2 m 10k
+R2 3 m 10k
+
+K1 L1 L2 1
+K2 L1 L3 1
+
+.tran .1n 1u
+
+.control
+run
+plot v(in) v(m) v(2)-v(m) v(3)-v(m)
+.endc
+
+.end

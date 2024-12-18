@@ -1,0 +1,24 @@
+noninverting amplifier using my opamp
+
+.include opamp.mod
+
+X1 vp vn output vcc vee 0 n1 n2 opamp
+
+V1 vcc 0 15
+V2 0 vee 15
+
+R1 1 vn 1k
+Rf vn output 100k
+
+Rshort vp 0 0
+
+Vin 1 0 sin(0 100m 100)
+
+.tran 10u 100m
+
+.control
+run
+plot v(1) v(output)
+.endc
+
+.end

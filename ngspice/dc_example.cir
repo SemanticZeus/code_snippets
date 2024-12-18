@@ -1,0 +1,32 @@
+* a simple dc analysis
+
+V1 1 0 10
+
+
+.param n1 = 0
+R1 1 2 {n1}
+R2 2 0 {10k-n1}
+
+.op
+
+.control
+
+let i = 0
+let R_values = vector(100)
+let V2_values = vector(100)
+
+let r = 0
+while i < 100
+  run
+  print v(2) v(1)
+  let V2_values[i] = v(2)
+  let R_values[i] = r
+  let r = r + i*10k/100
+  alterparam n1 = r
+  let i=i+1
+end
+.endc
+
+plot V2_values vs R_values
+
+.end

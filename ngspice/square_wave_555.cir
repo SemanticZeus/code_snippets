@@ -1,0 +1,81 @@
+* square wave generator using 555 timer
+.include CMOS-555.lib
+
+.SUBCKT UA555 trigger output reset control threshold dishcharge vsupply gnd
+* TR O R F TH D V
+
+Q4 25 2 3 QP
+Q5 gnd 6 3 QP
+Q6 6 6 8 QP
+R1 9 vsupply 4.7K
+R2 3 vsupply 830
+R3 8 vsupply 4.7K
+Q7 2 threshold 5 QN
+Q8 2 5 17 QN
+Q9 6 4 17 QN
+Q10 6 control 4 QN
+Q11 12 20 10 QP
+R4 10 vsupply 1K
+Q12 22 11 12 QP
+Q13 14 13 12 QP
+Q14 gnd 32 11 QP
+Q15 14 18 13 QP
+R5 14 gnd 100K
+R6 22 gnd 100K
+R7 17 gnd 10K
+Q16 dishcharge 15 gnd QN
+Q17 15 reset 31 QP
+R8 18 control 5K
+R9 18 gnd 5K
+R10 vsupply control 5K
+Q18 27 20 vsupply QP
+Q19 20 20 vsupply QP
+R11 20 31 5K
+D1 31 24 DA
+Q20 24 25 gnd QN
+Q21 25 22 gnd QN
+Q22 27 24 gnd QN
+R12 25 27 4.7K
+R13 vsupply 29 6.8K
+Q23 vsupply 29 28 QN
+Q24 29 27 16 QN
+Q25 output 26 gnd QN
+Q26 vsupply 28 output QN
+D2 output 29 DA
+R14 16 15 100
+R15 16 26 220
+R16 16 gnd 4.7K
+R17 28 output 3.9K
+Q3 2 2 9 QP
+.MODEL DA D (RS=40 IS=1.0E-14 CJO=1PF)
+.MODEL QP PNP (BF=20 BR=0.02 RC=4 RB=25 IS=1.0E-14 VA=50 NE=2)
++ CJE=12.4P VJE=1.1 MJE=.5 CJC=4.02P VJC=.3 MJC=.3 TF=229P TR=159N)
+.MODEL QN NPN (IS=5.07F NF=1 BF=100 VAF=161 IKF=30M ISE=3.9P NE=2
++ BR=4 NR=1 VAR=16 IKR=45M RE=1.03 RB=4.12 RC=.412 XTB=1.5
++ CJE=12.4P VJE=1.1 MJE=.5 CJC=4.02P VJC=.3 MJC=.3 TF=229P TR=959P)
+.ENDS
+
+V1 vcc 0 10
+X1 0 tr out res ctl thr dis vcc CMOS555
+
+R1 vcc dis 1k
+R2 dis tr 100k
+Rshort tr thr 0
+Rshort2 vcc res 100
+C1 ctl 0 10p
+C2 tr 0 3u
+
+R3 out 0 100k
+
+.tran 1m 10 9  uic
+
+.control
+run
+*plot v(out) v(tr)
+set gnuplot_terminal=png/quit
+gnuplot square v(out) v(tr)
+wrdata square_vout.ssv v(out)
+quit
+.endc
+
+.end

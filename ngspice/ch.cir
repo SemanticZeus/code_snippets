@@ -1,0 +1,47 @@
+.MODEL DI_1N4001G D (IS=65.4n RS=4.2m BV=50000.0 IBV=5.00u
++ CJO=14.8p M=0.333 N=1.36 TT=2.88u)
+
+.model diode D(IS=1e-9 BV=50000 IBV=5u)
+
+.param amp = 0
+
+.subckt ideal_diode anode cathod
+E1 np nn VALUE = {V(anode, cathod) * 1000}
+D1 nn cathod diode
+Rf cathod nn 1T
+Rshort anode np 1T
+.ends
+
+x2 n1 2 ideal_diode
+R1 2 0 1k
+
+V3 n1 0 sin(0 {amp} {1/(2*3.14)})
+L2 n1 n2 1 ic=0
+VIL2 n2 n3 0
+*D3 0 n3 DI_1N4001G
+X1 0 n3 ideal_diode
+I2 n3 0 1
+
+.tran 1m 20 uic
+
+.control
+
+set xbrushwidth=3
+
+let start = 0
+let end = 100
+let step = 0
+
+while step < end
+  alterparam amp = $&step
+  reset
+    run
+        plot v(n1) I(VIL2)
+
+    let step = step + 10
+endwhile
+
+.endc
+
+.end
+

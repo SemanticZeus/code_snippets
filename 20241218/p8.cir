@@ -1,0 +1,20 @@
+*
+
+V1 vin 0 2
+E1 out 0 vp vn 1000
+R1 vin vn 2meg
+R2 vn out 1meg
+VIO out n2 0
+R3 n2 n1 1k
+R4 n1 vp 1meg
+R5 vp 0 2meg
+RL n1 0 1k
+
+
+.tran 1m 1s
+
+.control 
+run
+plot v(vin) I(VIO)*1000
+.endc
+.end

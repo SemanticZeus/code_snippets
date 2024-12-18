@@ -1,0 +1,50 @@
+* problem 117, chapter 3
+
+.MODEL DI_1N4001G D  ( IS=65.4n RS=4.2m BV=5000.0 IBV=5.00u
++ CJO=14.8p  M=0.333 N=1.36 TT=2.88u )
+
+.model diode D(IS=1e-9 BV=5000 IBV=5u)
+
+.subckt ideal_diode anode cathod
+
+E1 out1 0 vp1 vn1 10000
+D3 out1 o1 DI_1N4001G
+
+Rshort1 anode vp1 0
+RShort2 o1 vn1 0
+
+Rshort3 o1 cathod 0
+
+.ends
+
+
+Vsin 1 0 sin(0 1 {1/(2*3.14)})
+
+D2 1 7 diode
+R3 7 0 10k
+
+X2 1 6 ideal_diode
+R2 6 0 10k
+
+
+V2 1 4 0
+L2 4 5 1 ic=0
+I2 5 0 1
+x1 0 5 ideal_diode
+
+
+V3 n1 0 sin(0 100 {1/(2*3.14)})
+L2 n1 n2 100
+VIL2 n2 n3 0
+D3 0 n3 diode
+I2 n3 0 1
+
+
+.tran 1m 20 uic
+
+.control
+run
+set xbrushwidth=3
+plot I(V2) V(1) V(5) v(6)-7 v(7)-5 v(1)-5 I(VIL2)
+.endc
+.end

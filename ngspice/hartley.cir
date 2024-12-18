@@ -1,0 +1,33 @@
+* Hartley oscillator
+
+.MODEL BC546 NPN (IS=50.7F NF=1 BF=318 VAF=145 IKF=.3
++ ISE=15.9P NE=2 BR=4 NR=1 VAR=24 IKR=.45 RE=1.54 RB=6.17
++ RC=.617 XTB=1.5 CJE=20.8P CJC=8.33P TF=611P TR=138N)
+*   National 65 Volt  .5 Amp  260 MHz  SiNPN  Transistor  01-26-1991
+*PINOUT TO-92 3 2 1
+
+V1 VCC 0 15
+L1 VCC 1 1u
+L2 1 tr_c 10u
+C1 VCC tr_c 1.0n ic=3
+C4 tr_c output 100u
+RL output 0 100k
+
+C2 1 tr_e .01u ic=0
+R3 tr_e 0 100
+R1 VCC tr_b 10k
+R2 tr_b 0 1k
+C3 tr_b 0 0.1u ic=1
+
+Q1 tr_c tr_b tr_e BC546
+
+.tran 1n 1m .99m uic
+
+.control
+run
+plot v(output)
+wrdata hartley.ssv v(output)
+.endc
+
+.end
+
